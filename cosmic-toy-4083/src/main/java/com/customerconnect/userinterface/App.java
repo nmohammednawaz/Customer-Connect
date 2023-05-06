@@ -1,32 +1,19 @@
 package com.customerconnect.userinterface;
 import java.util.Scanner;
-/**
- * Hello world!
- *
- */
+
+import com.customerconnect.exception.CannotConnectException;
+
 public class App {
+	
 //	Prints the welcome message for specific user type
 	static void printWelcomeMessage(String userType) {
 		System.out.println("Hey 👋 " + userType + "..! Welcome");
+		System.out.println();
 	}
-	
-//	Admin login
-	static void userIsAdmin(Scanner sc) {
-		System.out.print("Please enter the username: ");
-		String username = sc.next();
-		System.out.print("Please enter the password: ");
-		String password = sc.next();
-		if(username.equals("admin") && password.equals("admin")) {
-//			adminFunctionalities(sc);
-		}else {
-			System.out.println("Invalid credentials 🤔");
-		}
-	}
-	
 	
 //	-------------------------------------- Main Method --------------------------------------
 	
-    public static void main( String[] args ){
+    public static void main( String[] args ) throws CannotConnectException{
 //    	Scanner object to the take input from user
     	Scanner sc = new Scanner(System.in);
     	int choice = 0;
@@ -40,20 +27,24 @@ public class App {
     		choice = sc.nextInt();
     		switch(choice) {
     			case 1:
-    				printWelcomeMessage("Admin");
-    				userIsAdmin(sc);
+    				System.out.println();
+    				AdminUI.adminLogin(sc);
     				break;
     			case 2:
-//    				userIsCustomer();
+    				System.out.println();
+//    				CustomerUI.userIsCustomer();
     				break;
     			case 3:
-//    				userIsOperator();
+    				System.out.println();
+//    				OperatorUI.userIsOperator();
     				break;
     			case 0:
     				System.out.println();
     				System.out.println("Thank you for using our system!\nHave a great day!😊");
+    				System.exit(0);
     				break;
     			default:
+    				System.out.println();
     				System.out.println("🚫Please enter the correct preference and try again..!");
     				break;
     		}

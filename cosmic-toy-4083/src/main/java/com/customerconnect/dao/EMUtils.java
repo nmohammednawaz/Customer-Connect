@@ -11,7 +11,13 @@ public class EMUtils {
 		entityManagerFactory = Persistence.createEntityManagerFactory("customerconnect");
 	}
 	
-	static EntityManager getEntityManager() {
+	public static EntityManager openConnection() {
 		return entityManagerFactory.createEntityManager();
+	}
+	
+	public static void closeConnection() {
+		if(entityManagerFactory != null) {
+			entityManagerFactory.close();
+		}
 	}
 }
