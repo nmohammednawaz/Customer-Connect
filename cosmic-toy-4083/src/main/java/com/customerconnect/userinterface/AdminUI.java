@@ -3,7 +3,7 @@ package com.customerconnect.userinterface;
 import java.util.Scanner;
 
 import com.customerconnect.entity.Department;
-import com.customerconnect.exception.CannotAddDepartmentException;
+import com.customerconnect.exception.CannotCompleteTaskException;
 import com.customerconnect.exception.CannotConnectException;
 import com.customerconnect.serviceimplementations.DepartmentServiceImplements;
 import com.customerconnect.services.DepartmentService;
@@ -29,7 +29,7 @@ public class AdminUI {
 	
 //	Add Department
 	static void addDepartment(Scanner sc) throws CannotConnectException {
-		System.out.println("Please enter the department name");
+		System.out.print("Please enter the department name: ");
 		sc.nextLine();
 		String departmentName = sc.nextLine();
 		
@@ -39,8 +39,8 @@ public class AdminUI {
 		try {
 			departmentService.addDepartment(department);
 			System.out.println("Department Added Successfully...!");
-		}catch(CannotAddDepartmentException cannotAddepartmentException) {
-			System.out.println(cannotAddepartmentException.getMessage());
+		}catch(CannotCompleteTaskException cannotCompleteTaskException) {
+			System.out.println(cannotCompleteTaskException.getMessage());
 		}
 		
 	}
@@ -48,7 +48,55 @@ public class AdminUI {
 	
 //	Remove Departmnent
 	static void removeDepartment(Scanner sc) throws CannotConnectException{
+		System.out.print("Please enter department Id to be removed: ");
+		int departmentId = sc.nextInt();
+	
+		DepartmentService departmentService = new DepartmentServiceImplements();
 		
+		try {
+			departmentService.removeDepartment(departmentId);
+			System.out.println("Department Removed Successfully...!");
+		}catch(CannotCompleteTaskException cannotCompleteTaskException) {
+			System.out.println(cannotCompleteTaskException.getMessage());
+		}
+	}
+
+//	Modify Department
+	static void modifyDepartment(Scanner sc) throws CannotConnectException{
+		System.out.print("Please enter department Id to be modified: ");
+		int departmentId = sc.nextInt();
+		
+		DepartmentService departmentService = new DepartmentServiceImplements();
+		
+		try {
+			Department department = departmentService.findDepartmentById(departmentId);
+			sc.nextLine();
+			System.out.print("Please enter department name to be modified: ");
+			String departmentName = sc.nextLine();
+			department = new Department(departmentName);
+			department.setDepartmentId(departmentId);
+			departmentService.modifyDepartment(department);
+			System.out.println("Department Updated Successfully..!");
+		}catch(CannotCompleteTaskException cannotCompleteTaskException) {
+			System.out.println(cannotCompleteTaskException.getMessage());
+		}
+		
+		
+	}
+	
+//	Find Department By Id
+	static void findDepartmentById(Scanner sc) throws CannotConnectException{
+		System.out.print("Please enter department Id: ");
+		int departmentId = sc.nextInt();
+		
+		DepartmentService departmentService = new DepartmentServiceImplements();
+		
+		try {
+			Department department = departmentService.findDepartmentById(departmentId);
+			System.out.println(department.getDepartmentId() + " | " + department.getDepartmentName());
+		}catch(CannotCompleteTaskException cannotCompleteTaskException) {
+			System.out.println(cannotCompleteTaskException.getMessage());
+		}
 	}
 	
 //	Admin Functionalities
@@ -66,10 +114,10 @@ public class AdminUI {
 					removeDepartment(sc);
 					break;
 				case 3:
-//					modifyDepartment(sc);
+					modifyDepartment(sc);
 					break;
 				case 4:
-//					findDepartmentById(sc);
+					findDepartmentById(sc);
 					break;
 				case 5:
 //					addOperator(sc);
