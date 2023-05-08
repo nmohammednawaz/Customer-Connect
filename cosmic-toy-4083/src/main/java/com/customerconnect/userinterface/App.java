@@ -1,6 +1,5 @@
 package com.customerconnect.userinterface;
 import java.util.Scanner;
-
 import com.customerconnect.exception.CannotConnectException;
 
 public class App {
@@ -32,7 +31,7 @@ public class App {
     				break;
     			case 2:
     				System.out.println();
-//    				CustomerUI.userIsCustomer();
+    				CustomerUI.userIsCustomer(sc);
     				break;
     			case 3:
     				System.out.println();

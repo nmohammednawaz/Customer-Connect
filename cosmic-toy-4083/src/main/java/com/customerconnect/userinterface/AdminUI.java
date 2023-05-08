@@ -1,12 +1,18 @@
 package com.customerconnect.userinterface;
 
+import java.util.List;
 import java.util.Scanner;
 
 import com.customerconnect.entity.Department;
+import com.customerconnect.entity.Operator;
+import com.customerconnect.enumholder.UserType;
 import com.customerconnect.exception.CannotCompleteTaskException;
 import com.customerconnect.exception.CannotConnectException;
+import com.customerconnect.exception.NoRecordFoundException;
 import com.customerconnect.serviceimplementations.DepartmentServiceImplements;
+import com.customerconnect.serviceimplementations.OperatorServiceImplement;
 import com.customerconnect.services.DepartmentService;
+import com.customerconnect.services.OperatorService;
 
 public class AdminUI {
 	
@@ -33,7 +39,9 @@ public class AdminUI {
 		sc.nextLine();
 		String departmentName = sc.nextLine();
 		
-		Department department = new Department(departmentName);
+		Department department = new Department();
+		department.setDepartmentName(departmentName);
+		
 		DepartmentService departmentService = new DepartmentServiceImplements();
 		
 		try {
@@ -73,8 +81,10 @@ public class AdminUI {
 			sc.nextLine();
 			System.out.print("Please enter department name to be modified: ");
 			String departmentName = sc.nextLine();
-			department = new Department(departmentName);
+			department = new Department();
 			department.setDepartmentId(departmentId);
+			department.setDepartmentName(departmentName);
+			
 			departmentService.modifyDepartment(department);
 			System.out.println("Department Updated Successfully..!");
 		}catch(CannotCompleteTaskException cannotCompleteTaskException) {
@@ -95,6 +105,129 @@ public class AdminUI {
 			Department department = departmentService.findDepartmentById(departmentId);
 			System.out.println(department.getDepartmentId() + " | " + department.getDepartmentName());
 		}catch(CannotCompleteTaskException cannotCompleteTaskException) {
+			System.out.println(cannotCompleteTaskException.getMessage());
+		}
+	}
+	
+//	Add Operator
+	static void addOperator(Scanner sc) throws CannotConnectException{
+		System.out.print("Please enter first name of operator: ");
+		sc.nextLine();
+		String operatorFirstName = sc.nextLine();
+		System.out.print("Please enter last name of operator: ");
+		String operatorLastName = sc.nextLine();
+		System.out.print("Please enter email of operator: ");
+		String operatorEmail = sc.next();
+		System.out.print("Please enter mobile number of operator: ");
+		String operatorMobile = sc.next();
+		System.out.print("Please enter city of operator: ");
+		String operatorCity = sc.next();
+		System.out.print("Please enter operator department id: ");
+		int operatorDepartmentid = sc.nextInt();
+		
+		Operator operator = new Operator();
+		operator.setFirstName(operatorFirstName);
+		operator.setLastName(operatorLastName);
+		operator.setEmail(operatorEmail);
+		operator.setMobileNumber(operatorMobile);
+		operator.setCity(operatorCity);
+		
+		DepartmentService departmentService = new DepartmentServiceImplements();
+		try {
+//			Finds for the department by department id and set the department for the operator
+			Department department = departmentService.findDepartmentById(operatorDepartmentid);
+			operator.setDepartment(department);
+			
+			OperatorService operatorService = new OperatorServiceImplement();
+			operatorService.addOperator(operator);
+			
+			System.out.println("Operator Added Successfully...!");
+		}catch (CannotCompleteTaskException cannotCompleteTaskException) {
+			System.out.println(cannotCompleteTaskException.getMessage());
+		}
+		
+	}
+	
+//	Remove operator
+	static void removeOperator(Scanner sc) throws CannotConnectException{
+		System.out.print("Please enter operator Id to be removed: ");
+		int operatortId = sc.nextInt();
+	
+		OperatorService operatorService = new OperatorServiceImplement();
+		
+		try {
+			operatorService.removeOperator(operatortId);
+			System.out.println("Operator Removed Successfully...!");
+		}catch(CannotCompleteTaskException cannotCompleteTaskException) {
+			System.out.println(cannotCompleteTaskException.getMessage());
+		}
+	}
+	
+//	Modify Operator
+	static void modifyOperator(Scanner sc) throws CannotConnectException{
+		System.out.print("Please enter operator Id to be modified: ");
+		int operatorId = sc.nextInt();
+		
+		OperatorService operatorService = new OperatorServiceImplement();
+		try {
+			Operator operator = operatorService.findOperatorById(operatorId);
+			sc.nextLine();
+			System.out.print("Please enter first name of operator to be modified: ");
+			String operatorfirstName = sc.nextLine();
+			System.out.print("Please enter last name of operator to be modified: ");
+			String operatorLastName = sc.nextLine();
+			System.out.print("Please enter email of operator to be modified: ");
+			String operatorEmail = sc.next();
+			System.out.print("Please enter mobile number of operator to be modified: ");
+			String operatorMobile = sc.next();
+			System.out.print("Please enter city of operator to be modified: ");
+			String operatorCity = sc.next();
+			System.out.print("Please enter operator department id to be modified: ");
+			int operatorDepartmentid = sc.nextInt();
+			operator = new Operator();
+			operator.setOperatorID(operatorId);
+			operator.setFirstName(operatorfirstName);
+			operator.setLastName(operatorLastName);
+			operator.setEmail(operatorEmail);
+			operator.setMobileNumber(operatorMobile);
+			operator.setCity(operatorCity);
+			
+			DepartmentService departmentService = new DepartmentServiceImplements();
+			Department department = departmentService.findDepartmentById(operatorDepartmentid);
+			operator.setDepartment(department);
+			
+			operatorService.modifyOperator(operator);
+			
+			System.out.println("Operator Updated Successfully..!");
+		}catch(CannotCompleteTaskException cannotCompleteTaskException) {
+			System.out.println(cannotCompleteTaskException.getMessage());
+		}
+	}
+	
+//	Find Operator By Id
+	static void findOperatorById(Scanner sc) throws CannotConnectException{
+		System.out.print("Please enter operator Id: ");
+		int operatorId = sc.nextInt();
+		
+		OperatorService operatorService = new OperatorServiceImplement();
+		
+		try {
+			Operator operator = operatorService.findOperatorById(operatorId);
+			System.out.println(operator.getFirstName() + " " + operator.getLastName());
+		}catch(CannotCompleteTaskException cannotCompleteTaskException) {
+			System.out.println(cannotCompleteTaskException.getMessage());
+		}
+	}
+	
+//	View All Operators
+	static void viewAllOperators() throws CannotConnectException{
+		OperatorService operatorService = new OperatorServiceImplement();
+		try {
+			List<Operator> operatorsList = operatorService.viewAllOperators();
+			
+			operatorsList.forEach(operator -> System.out.println(operator.getFirstName() + " " + operator.getLastName() + " - " + operator.getDepartment().getDepartmentName()));
+			
+		}catch(NoRecordFoundException cannotCompleteTaskException) {
 			System.out.println(cannotCompleteTaskException.getMessage());
 		}
 	}
@@ -120,19 +253,19 @@ public class AdminUI {
 					findDepartmentById(sc);
 					break;
 				case 5:
-//					addOperator(sc);
+					addOperator(sc);
 					break;
 				case 6:
-//					removeOperator(sc);
+					removeOperator(sc);
 					break;
 				case 7:
-//					modifyOperator(sc);
+					modifyOperator(sc);
 					break;
 				case 8:
-//					findOperatorById(sc);
+					findOperatorById(sc);
 					break;
 				case 9:
-//					viewAllOperators();
+					viewAllOperators();
 					break;
 				case 0:
 					System.out.println("Admin Logout Successfully..!");
@@ -154,7 +287,10 @@ public class AdminUI {
 		String password = sc.next();
 		if(username.equals("admin") && password.equals("admin")) {
 			System.out.println();
-			App.printWelcomeMessage("Admin");
+			UserType userType = UserType.ADMIN;
+			userType.setUserType("Admin");
+			System.out.println(userType.getUserType());
+			App.printWelcomeMessage(userType.getUserType());
 			adminFunctionalities(sc);
 		}else {
 			System.out.println("Invalid credentials 🤔");
