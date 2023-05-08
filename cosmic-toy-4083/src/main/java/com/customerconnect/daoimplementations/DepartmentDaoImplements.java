@@ -9,7 +9,7 @@ import com.customerconnect.exception.CannotConnectException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.PersistenceException;
-import jakarta.persistence.Query;
+import jakarta.persistence.Query;	
 
 public class DepartmentDaoImplements implements DepartmentDao {
 
@@ -35,7 +35,7 @@ public class DepartmentDaoImplements implements DepartmentDao {
 		}catch(PersistenceException ex) {
 			throw new CannotConnectException("Unable to Connect, Please try again");
 		}finally {
-			entityManager.close();
+				entityManager.close();
 		}
 	}
 
@@ -53,9 +53,10 @@ public class DepartmentDaoImplements implements DepartmentDao {
 			
 			EntityTransaction entityTransaction = entityManager.getTransaction();
 			entityTransaction.begin();
-			Query query = entityManager.createQuery("DELETE FROM Department d WHERE departmentId = :departmentId");
-			query.setParameter("departmentId", departmentId);
-			query.executeUpdate();
+			entityManager.remove(department);
+//			Query query = entityManager.createQuery("DELETE FROM Department d WHERE departmentId = :departmentId");
+//			query.setParameter("departmentId", departmentId);
+//			query.executeUpdate();
 			entityTransaction.commit();
 			
 			
@@ -93,12 +94,8 @@ public class DepartmentDaoImplements implements DepartmentDao {
 		try {
 			entityManager = EMUtils.openConnection();
 			Department fetchDepartment =  entityManager.find(Department.class, department.getDepartmentId());
-			if(!fetchDepartment.getDepartmentName().equals(department.getDepartmentName())) {
-				Query query = entityManager.createQuery("SELECT COUNT(d) FROM Department d WHERE departmentName = :departmentName");
-				query.setParameter("departmentName", department.getDepartmentName());
-				if((Long) query.getSingleResult() > 0) {
-					throw new CannotCompleteTaskException("Dear Admin, Departent Name With " + department.getDepartmentName() + " Already Exists, Please Try With Different Name");
-				}
+			if(fetchDepartment.getDepartmentName().equals(department.getDepartmentName())) {
+				throw new CannotCompleteTaskException("Dear Admin, Departent Name With " + department.getDepartmentName() + " Already Exists, Please Try With Different Name");
 			}
 			EntityTransaction entityTransaction = entityManager.getTransaction();
 			entityTransaction.begin();
