@@ -2,19 +2,22 @@ package com.customerconnect.services;
 
 import java.util.List;
 
-import com.customerconnect.entity.Operator;
+import com.customerconnect.entity.Issue;
 import com.customerconnect.exception.CannotCompleteTaskException;
 import com.customerconnect.exception.CannotConnectException;
 import com.customerconnect.exception.NoRecordFoundException;
 
 public interface OperatorService {
-	void addOperator(Operator operator) throws CannotCompleteTaskException, CannotConnectException;
+	
+	void loginOperator(String loginEmail, String loginPassword) throws CannotCompleteTaskException, CannotConnectException;
 
-	void removeOperator(int operatortId) throws CannotCompleteTaskException, CannotConnectException;
+	List<Issue> getIssueList()throws NoRecordFoundException, CannotConnectException;
 
-	Operator findOperatorById(int operatorId) throws CannotCompleteTaskException, CannotConnectException;
+	void addIssue(int issueId)throws CannotCompleteTaskException, CannotConnectException;
 
-	void modifyOperator(Operator operator) throws CannotCompleteTaskException, CannotConnectException;
+	void closeCustomerIssue(int issueId)throws CannotCompleteTaskException, CannotConnectException;
 
-	List<Operator> viewAllOperators() throws NoRecordFoundException, CannotConnectException;;
+	List<Issue> viewAllIssues()throws NoRecordFoundException, CannotConnectException;
+
+	void solveIssue(int issueId, String solutionDescription) throws CannotCompleteTaskException, CannotConnectException;
 }
