@@ -9,10 +9,8 @@ import com.customerconnect.enumholder.UserType;
 import com.customerconnect.exception.CannotCompleteTaskException;
 import com.customerconnect.exception.CannotConnectException;
 import com.customerconnect.exception.NoRecordFoundException;
-import com.customerconnect.serviceimplementations.DepartmentServiceImplements;
-import com.customerconnect.serviceimplementations.OperatorServiceImplement;
-import com.customerconnect.services.DepartmentService;
-import com.customerconnect.services.OperatorService;
+import com.customerconnect.serviceimplementations.AdminServiceImplement;
+import com.customerconnect.services.AdminService;
 
 public class AdminUI {
 	
@@ -28,21 +26,47 @@ public class AdminUI {
 		System.out.println("7. Modify Operator");
 		System.out.println("8. Find Operator By ID");
 		System.out.println("9. View All Operators");
+		System.out.println("10. View All Customers");
+		System.out.println("11. Find Customer By Id");
+		System.out.println("12. Find Customer By Email");
+		System.out.println("13. Find Customer By Name");
+		System.out.println("14. View Login Details");
+		System.out.println("15. Lock Customer");
 		System.out.println("0. Logout");
 		System.out.println();
 	}
 	
 	
-//	Add Department
+//	Add department to the system
 	static void addDepartment(Scanner sc) throws CannotConnectException {
-		System.out.print("Please enter the department name: ");
-		sc.nextLine();
-		String departmentName = sc.nextLine();
 		
+		System.out.println("1. Technical Issue");
+		System.out.println("2. Product Issue");
+		System.out.println("3. Billing And Payment Issue");
+		System.out.println("4. General Related Query");
+		System.out.print("Please select the department name: ");
+		int departmentType = sc.nextInt();
+		String departmentName = null;
+		switch (departmentType) {
+			case 1:
+				departmentName = "Technical Issue";
+				break;
+			case 2:
+				departmentName = "Product Issue";
+				break;
+			case 3:
+				departmentName = "Billing And Payment Issue";
+				break;
+			case 4:
+				departmentName = "General Related Query";
+				break;
+			default:
+				throw new IllegalArgumentException("Unexpected value: " + departmentType);
+		}
 		Department department = new Department();
 		department.setDepartmentName(departmentName);
 		
-		DepartmentService departmentService = new DepartmentServiceImplements();
+		AdminService departmentService = new AdminServiceImplement();
 		
 		try {
 			departmentService.addDepartment(department);
@@ -59,7 +83,7 @@ public class AdminUI {
 		System.out.print("Please enter department Id to be removed: ");
 		int departmentId = sc.nextInt();
 	
-		DepartmentService departmentService = new DepartmentServiceImplements();
+		AdminService departmentService = new AdminServiceImplement();
 		
 		try {
 			departmentService.removeDepartment(departmentId);
@@ -74,7 +98,7 @@ public class AdminUI {
 		System.out.print("Please enter department Id to be modified: ");
 		int departmentId = sc.nextInt();
 		
-		DepartmentService departmentService = new DepartmentServiceImplements();
+		AdminService departmentService = new AdminServiceImplement();
 		
 		try {
 			Department department = departmentService.findDepartmentById(departmentId);
@@ -99,7 +123,7 @@ public class AdminUI {
 		System.out.print("Please enter department Id: ");
 		int departmentId = sc.nextInt();
 		
-		DepartmentService departmentService = new DepartmentServiceImplements();
+		AdminService departmentService = new AdminServiceImplement();
 		
 		try {
 			Department department = departmentService.findDepartmentById(departmentId);
@@ -122,8 +146,18 @@ public class AdminUI {
 		String operatorMobile = sc.next();
 		System.out.print("Please enter city of operator: ");
 		String operatorCity = sc.next();
-		System.out.print("Please enter operator department id: ");
+		System.out.println("Please select the department name: ");
+		System.out.println("1. Technical Issue");
+		System.out.println("2. Product Issue");
+		System.out.println("3. Billing And Payment Issue");
+		System.out.println("4. General Related Query");
+		System.out.print("Please enter your selection: ");
+		
 		int operatorDepartmentid = sc.nextInt();
+		if(operatorDepartmentid > 4) {
+			System.out.println("Please select a valid department...!");
+			return;
+		}
 		
 		Operator operator = new Operator();
 		operator.setFirstName(operatorFirstName);
@@ -132,13 +166,14 @@ public class AdminUI {
 		operator.setMobileNumber(operatorMobile);
 		operator.setCity(operatorCity);
 		
-		DepartmentService departmentService = new DepartmentServiceImplements();
+		
+		AdminService departmentService = new AdminServiceImplement();
 		try {
 //			Finds for the department by department id and set the department for the operator
 			Department department = departmentService.findDepartmentById(operatorDepartmentid);
 			operator.setDepartment(department);
 			
-			OperatorService operatorService = new OperatorServiceImplement();
+			AdminService operatorService = new AdminServiceImplement();
 			operatorService.addOperator(operator);
 			
 			System.out.println("Operator Added Successfully...!");
@@ -153,7 +188,7 @@ public class AdminUI {
 		System.out.print("Please enter operator Id to be removed: ");
 		int operatortId = sc.nextInt();
 	
-		OperatorService operatorService = new OperatorServiceImplement();
+		AdminService operatorService = new AdminServiceImplement();
 		
 		try {
 			operatorService.removeOperator(operatortId);
@@ -168,7 +203,7 @@ public class AdminUI {
 		System.out.print("Please enter operator Id to be modified: ");
 		int operatorId = sc.nextInt();
 		
-		OperatorService operatorService = new OperatorServiceImplement();
+		AdminService operatorService = new AdminServiceImplement();
 		try {
 			Operator operator = operatorService.findOperatorById(operatorId);
 			sc.nextLine();
@@ -185,14 +220,14 @@ public class AdminUI {
 			System.out.print("Please enter operator department id to be modified: ");
 			int operatorDepartmentid = sc.nextInt();
 			operator = new Operator();
-			operator.setOperatorID(operatorId);
+			operator.setOperatorId(operatorId);
 			operator.setFirstName(operatorfirstName);
 			operator.setLastName(operatorLastName);
 			operator.setEmail(operatorEmail);
 			operator.setMobileNumber(operatorMobile);
 			operator.setCity(operatorCity);
 			
-			DepartmentService departmentService = new DepartmentServiceImplements();
+			AdminService departmentService = new AdminServiceImplement();
 			Department department = departmentService.findDepartmentById(operatorDepartmentid);
 			operator.setDepartment(department);
 			
@@ -209,7 +244,7 @@ public class AdminUI {
 		System.out.print("Please enter operator Id: ");
 		int operatorId = sc.nextInt();
 		
-		OperatorService operatorService = new OperatorServiceImplement();
+		AdminService operatorService = new AdminServiceImplement();
 		
 		try {
 			Operator operator = operatorService.findOperatorById(operatorId);
@@ -221,7 +256,7 @@ public class AdminUI {
 	
 //	View All Operators
 	static void viewAllOperators() throws CannotConnectException{
-		OperatorService operatorService = new OperatorServiceImplement();
+		AdminService operatorService = new AdminServiceImplement();
 		try {
 			List<Operator> operatorsList = operatorService.viewAllOperators();
 			
@@ -289,7 +324,6 @@ public class AdminUI {
 			System.out.println();
 			UserType userType = UserType.ADMIN;
 			userType.setUserType("Admin");
-			System.out.println(userType.getUserType());
 			App.printWelcomeMessage(userType.getUserType());
 			adminFunctionalities(sc);
 		}else {

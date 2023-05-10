@@ -36,19 +36,25 @@ public class Login {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customerId")
     private Customer customer;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "operatorId")
+    private Operator operator;
 
 	public Login() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Login(String username, String password, UserType userType, boolean isActive, Customer customer) {
+	public Login(String username, String password, UserType userType, boolean isActive, Customer customer,
+			Operator operator) {
 		super();
 		this.username = username;
 		this.password = password;
 		this.userType = userType;
 		this.isActive = isActive;
 		this.customer = customer;
+		this.operator = operator;
 	}
 
 	public int getId() {
@@ -99,9 +105,17 @@ public class Login {
 		this.customer = customer;
 	}
 
+	public Operator getOperator() {
+		return operator;
+	}
+
+	public void setOperator(Operator operator) {
+		this.operator = operator;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(customer, id, isActive, password, userType, username);
+		return Objects.hash(customer, id, isActive, operator, password, userType, username);
 	}
 
 	@Override
@@ -114,9 +128,10 @@ public class Login {
 			return false;
 		Login other = (Login) obj;
 		return Objects.equals(customer, other.customer) && id == other.id && isActive == other.isActive
-				&& Objects.equals(password, other.password) && userType == other.userType
-				&& Objects.equals(username, other.username);
+				&& Objects.equals(operator, other.operator) && Objects.equals(password, other.password)
+				&& userType == other.userType && Objects.equals(username, other.username);
 	}
-    
+
+	
     
 }

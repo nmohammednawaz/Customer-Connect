@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.customerconnect.dao.OperatorDao;
 import com.customerconnect.daoimplementations.OperatorDaoImplement;
-import com.customerconnect.entity.Operator;
+import com.customerconnect.entity.Issue;
 import com.customerconnect.exception.CannotCompleteTaskException;
 import com.customerconnect.exception.CannotConnectException;
 import com.customerconnect.exception.NoRecordFoundException;
@@ -13,36 +13,48 @@ import com.customerconnect.services.OperatorService;
 public class OperatorServiceImplement implements OperatorService {
 
 	@Override
-	public void addOperator(Operator operator) throws CannotCompleteTaskException, CannotConnectException {
+	public void loginOperator(String loginEmail, String loginPassword)
+			throws CannotCompleteTaskException, CannotConnectException {
 		OperatorDao operatorDao = new OperatorDaoImplement();
-		operatorDao.addOperator(operator);
-
+		operatorDao.loginOperator(loginEmail, loginPassword);
 	}
 
 	@Override
-	public void removeOperator(int operatortId) throws CannotCompleteTaskException, CannotConnectException {
+	public List<Issue> getIssueList() throws NoRecordFoundException, CannotConnectException {
+		// TODO Auto-generated method stub
 		OperatorDao operatorDao = new OperatorDaoImplement();
-		operatorDao.removeOperator(operatortId);
+		List<Issue> issuesList = operatorDao.getIssueList();
+		return issuesList;
 	}
 
 	@Override
-	public Operator findOperatorById(int operatorId) throws CannotCompleteTaskException, CannotConnectException {
+	public void addIssue(int issueId) throws CannotCompleteTaskException, CannotConnectException {
+		
 		OperatorDao operatorDao = new OperatorDaoImplement();
-		Operator operator = operatorDao.findOperatorById(operatorId);
-		return operator;
+		operatorDao.addIssue(issueId);
 	}
 
 	@Override
-	public void modifyOperator(Operator operator) throws CannotCompleteTaskException, CannotConnectException {
+	public void closeCustomerIssue(int issueId) throws CannotCompleteTaskException, CannotConnectException {
+		// TODO Auto-generated method stub
 		OperatorDao operatorDao = new OperatorDaoImplement();
-		operatorDao.modifyOperator(operator);
+		operatorDao.closeCustomerIssue(issueId);
 	}
 
 	@Override
-	public List<Operator> viewAllOperators() throws NoRecordFoundException, CannotConnectException {
+	public List<Issue> viewAllIssues() throws NoRecordFoundException, CannotConnectException {
+		// TODO Auto-generated method stub
 		OperatorDao operatorDao = new OperatorDaoImplement();
-		List<Operator> operatorsList= operatorDao.viewAllOperators();
-		return operatorsList;
+		List<Issue> issuesList = operatorDao.viewAllIssues();
+		return issuesList;
 	}
+
+	@Override
+	public void solveIssue(int issueId, String solutionDescription) throws CannotCompleteTaskException, CannotConnectException {
+		// TODO Auto-generated method stub
+		OperatorDao operatorDao = new OperatorDaoImplement();
+		operatorDao.solveIssue(issueId, solutionDescription);
+	}
+
 
 }

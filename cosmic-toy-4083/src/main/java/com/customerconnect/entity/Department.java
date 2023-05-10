@@ -1,7 +1,8 @@
 package com.customerconnect.entity;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -19,15 +20,15 @@ public class Department {
 	@Column(nullable = false, unique = true)
     private String departmentName;
     
-    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
-    private Set<Operator> operators;
+	@OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
+    private List<Operator> operators = new ArrayList<>();
 
 	public Department() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Department(String departmentName, Set<Operator> operators) {
+	public Department(String departmentName, List<Operator> operators) {
 		super();
 		this.departmentName = departmentName;
 		this.operators = operators;
@@ -49,11 +50,11 @@ public class Department {
 		this.departmentName = departmentName;
 	}
 
-	public Set<Operator> getOperators() {
+	public List<Operator> getOperators() {
 		return operators;
 	}
 
-	public void setOperators(Set<Operator> operators) {
+	public void setOperators(List<Operator> operators) {
 		this.operators = operators;
 	}
 
@@ -74,7 +75,6 @@ public class Department {
 		return departmentId == other.departmentId && Objects.equals(departmentName, other.departmentName)
 				&& Objects.equals(operators, other.operators);
 	}
-    
+
 	
-    
 }

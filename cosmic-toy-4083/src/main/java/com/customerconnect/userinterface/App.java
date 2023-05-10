@@ -35,7 +35,7 @@ public class App {
     				break;
     			case 3:
     				System.out.println();
-//    				OperatorUI.userIsOperator();
+    				OperatorUI.operatorLogin(sc);
     				break;
     			case 0:
     				System.out.println();
