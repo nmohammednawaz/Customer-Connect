@@ -4,7 +4,9 @@ import java.util.List;
 
 import com.customerconnect.dao.AdminDao;
 import com.customerconnect.dao.EMUtils;
+import com.customerconnect.entity.Customer;
 import com.customerconnect.entity.Department;
+import com.customerconnect.entity.Login;
 import com.customerconnect.entity.Operator;
 import com.customerconnect.exception.CannotCompleteTaskException;
 import com.customerconnect.exception.CannotConnectException;
@@ -242,7 +244,7 @@ public class AdminDaoImplement implements AdminDao{
 		try {
 			entityManager = EMUtils.openConnection();
 			Query fetchAllOperatorsQuery = entityManager.createQuery("SELECT o FROM Operator o");
-			operatorsList = (List<Operator>) fetchAllOperatorsQuery.getResultList();
+			operatorsList = (List<Operator>)fetchAllOperatorsQuery.getResultList();
 			
 			if(operatorsList.size() == 0) {
 				throw new NoRecordFoundException("Dear Admin, there is no any operator added yet into the system...!");
@@ -255,6 +257,147 @@ public class AdminDaoImplement implements AdminDao{
 			entityManager.close();
 		}
 		
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Customer> viewAllCustomers() throws NoRecordFoundException, CannotConnectException {
+		EntityManager entityManager = null;
+		List<Customer> customersList = null;
+		try {
+			entityManager = EMUtils.openConnection();
+			Query fetchAllCustomersQuery = entityManager.createQuery("SELECT c FROM Customer c");
+			customersList = (List<Customer>)fetchAllCustomersQuery.getResultList();
+			
+			if(customersList.isEmpty()) {
+				throw new NoRecordFoundException("Dear Admin, there is no any customer found...!");
+			}
+			
+			return customersList;
+		}catch(PersistenceException ex) {
+			throw new CannotConnectException("Unable to Connect, Please try again");
+		}finally {
+			entityManager.close();
+		}
+	}
+
+	@Override
+	public Customer findCustomerById(int customerId) throws NoRecordFoundException, CannotConnectException {
+		EntityManager entityManager = null;
+		try {
+			entityManager = EMUtils.openConnection();
+			
+			Customer customer = entityManager.find(Customer.class, customerId);
+			
+			if(customer == null) {
+				throw new NoRecordFoundException("Dear Admin, there is no any customer found with Id " + customerId);
+			}
+			
+			return customer;
+		}catch(PersistenceException ex) {
+			throw new CannotConnectException("Unable to Connect, Please try again");
+		}finally {
+			entityManager.close();
+		}
+	}
+
+	@Override
+	public Customer findCustomerByEmail(String customerEmail) throws NoRecordFoundException, CannotConnectException {
+		EntityManager entityManager = null;
+		try {
+			entityManager = EMUtils.openConnection();
+			
+			Query query = entityManager.createQuery("SELECT c from Customer c WHERE email = :email");
+			query.setParameter("email", customerEmail);
+			
+			Customer customer = (Customer)query.getSingleResult();
+			
+			if(customer == null) {
+				throw new NoRecordFoundException("Dear Admin, there is no any customer found with email " + customerEmail);
+			}
+			
+			return customer;
+		}catch(PersistenceException ex) {
+			throw new CannotConnectException("Unable to Connect, Please try again");
+		}finally {
+			entityManager.close();
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Customer> findCustomersByName(String customerFirstName, String customerLastName)
+			throws NoRecordFoundException, CannotConnectException {
+		EntityManager entityManager = null;
+		List<Customer> customersList = null;
+		try {
+			entityManager = EMUtils.openConnection();
+			Query fetchCustomersQuery = entityManager.createQuery("SELECT c FROM Customer c WHERE firstName = :firstName AND lastName = :lastName");
+			fetchCustomersQuery.setParameter("firstName", customerFirstName);
+			fetchCustomersQuery.setParameter("lastName", customerLastName);
+			customersList = (List<Customer>)fetchCustomersQuery.getResultList();
+			
+			if(customersList.isEmpty()) {
+				throw new NoRecordFoundException("Dear Admin, there is no any customer found with name: " + customerFirstName + " " + customerLastName);
+			}
+			
+			return customersList;
+		}catch(PersistenceException ex) {
+			throw new CannotConnectException("Unable to Connect, Please try again");
+		}finally {
+			entityManager.close();
+		}
+	}
+
+	@Override
+	public void blockCustomer(int customerId) throws NoRecordFoundException, CannotConnectException, CannotCompleteTaskException {
+		EntityManager entityManager = null;
+		try {
+			entityManager = EMUtils.openConnection();
+			
+			Customer customer = entityManager.find(Customer.class, customerId);
+			
+			if(customer == null) {
+				throw new NoRecordFoundException("Dear Admin, there is no any customer found with Id " + customerId);
+			}
+			
+			if(customer.isCustomerIsActive() == false) {
+				throw new CannotCompleteTaskException("Dear Admin, Customer with id " + customerId + " is already blocked");
+			}
+			
+			EntityTransaction entityTransaction = entityManager.getTransaction();
+			entityTransaction.begin();
+			customer.setCustomerIsActive(false);
+			entityTransaction.commit();
+			
+		}catch(PersistenceException ex) {
+			throw new CannotConnectException("Unable to Connect, Please try again");
+		}finally {
+			entityManager.close();
+		}
+		
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Login> getLoginDetails() throws NoRecordFoundException, CannotConnectException {
+		EntityManager entityManager = null;
+		List<Login> loginList = null;
+		try {
+			entityManager = EMUtils.openConnection();
+			Query fetchAllLoginQuery = entityManager.createQuery("SELECT l FROM Login l");
+			loginList = (List<Login>)fetchAllLoginQuery.getResultList();
+			
+			if(loginList.isEmpty()) {
+				throw new NoRecordFoundException("Dear Admin, there is no any Login found...!");
+			}
+			
+			return loginList;
+		}catch(PersistenceException ex) {
+			throw new CannotConnectException("Unable to Connect, Please try again");
+		}finally {
+			entityManager.close();
+		}
 	}
 
 	

@@ -1,5 +1,6 @@
 package com.customerconnect.entity;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 import com.customerconnect.enumholder.UserType;
@@ -8,7 +9,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -33,13 +33,15 @@ public class Login {
 
     private boolean isActive;
  
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "customerId")
     private Customer customer;
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "operatorId")
     private Operator operator;
+    
+    private LocalDateTime loginDateTime;
 
 	public Login() {
 		super();
@@ -47,7 +49,7 @@ public class Login {
 	}
 
 	public Login(String username, String password, UserType userType, boolean isActive, Customer customer,
-			Operator operator) {
+			Operator operator, LocalDateTime loginDateTime) {
 		super();
 		this.username = username;
 		this.password = password;
@@ -55,6 +57,7 @@ public class Login {
 		this.isActive = isActive;
 		this.customer = customer;
 		this.operator = operator;
+		this.loginDateTime = loginDateTime;
 	}
 
 	public int getId() {
@@ -113,9 +116,17 @@ public class Login {
 		this.operator = operator;
 	}
 
+	public LocalDateTime getLoginDateTime() {
+		return loginDateTime;
+	}
+
+	public void setLoginDateTime(LocalDateTime loginDateTime) {
+		this.loginDateTime = loginDateTime;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(customer, id, isActive, operator, password, userType, username);
+		return Objects.hash(customer, id, isActive, loginDateTime, operator, password, userType, username);
 	}
 
 	@Override
@@ -128,10 +139,10 @@ public class Login {
 			return false;
 		Login other = (Login) obj;
 		return Objects.equals(customer, other.customer) && id == other.id && isActive == other.isActive
-				&& Objects.equals(operator, other.operator) && Objects.equals(password, other.password)
-				&& userType == other.userType && Objects.equals(username, other.username);
+				&& Objects.equals(loginDateTime, other.loginDateTime) && Objects.equals(operator, other.operator)
+				&& Objects.equals(password, other.password) && userType == other.userType
+				&& Objects.equals(username, other.username);
 	}
 
 	
-    
 }

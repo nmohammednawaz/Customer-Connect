@@ -43,6 +43,7 @@ public class OperatorDaoImplement implements OperatorDao {
 	        login.setPassword(loginPassword);
 	        login.setUserType(UserType.OPERATOR);
 	        login.setActive(true);
+	        login.setLoginDateTime(LocalDateTime.now());
 	        operator.setLogin(login);
 	        login.setOperator(operator);
 	        entityManager.getTransaction().begin();
@@ -138,15 +139,14 @@ public class OperatorDaoImplement implements OperatorDao {
 			if(!isPresent) {
 				throw new CannotCompleteTaskException("Dear Operator, There is no Issue with ID " + issueId);
 			}
-			
+			EntityTransaction entityTransaction = entityManager.getTransaction();
+			entityTransaction.begin();
 			Issue issue = entityManager.find(Issue.class, issueId);
 			
 			if(issue.getSolution() == null) {
 				throw new CannotCompleteTaskException("Dear Operator, Please Resolve The Issue Before Closing It...!");
 			}
 			
-			EntityTransaction entityTransaction = entityManager.getTransaction();
-			entityTransaction.begin();
 			issue.setIssueStatus("Closed");
 			entityTransaction.commit();
 			

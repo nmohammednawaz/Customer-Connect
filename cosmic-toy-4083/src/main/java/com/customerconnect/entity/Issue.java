@@ -1,10 +1,10 @@
 package com.customerconnect.entity;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -20,12 +20,13 @@ public class Issue {
     private String issueType;
     private String issueDescription;
     private String issueStatus;
+    private LocalDateTime issueDateTime;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "customerId")
     private Customer customer;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "operatorId")
     private Operator operator;
 
@@ -37,12 +38,13 @@ public class Issue {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Issue(String issueType, String issueDescription, String issueStatus, Customer customer, Operator operator,
-			Solution solution) {
+	public Issue(String issueType, String issueDescription, String issueStatus, LocalDateTime issueDateTime,
+			Customer customer, Operator operator, Solution solution) {
 		super();
 		this.issueType = issueType;
 		this.issueDescription = issueDescription;
 		this.issueStatus = issueStatus;
+		this.issueDateTime = issueDateTime;
 		this.customer = customer;
 		this.operator = operator;
 		this.solution = solution;
@@ -80,6 +82,14 @@ public class Issue {
 		this.issueStatus = issueStatus;
 	}
 
+	public LocalDateTime getIssueDateTime() {
+		return issueDateTime;
+	}
+
+	public void setIssueDateTime(LocalDateTime issueDateTime) {
+		this.issueDateTime = issueDateTime;
+	}
+
 	public Customer getCustomer() {
 		return customer;
 	}
@@ -106,7 +116,8 @@ public class Issue {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(customer, issueDescription, issueId, issueStatus, issueType, operator);
+		return Objects.hash(customer, issueDateTime, issueDescription, issueId, issueStatus, issueType, operator,
+				solution);
 	}
 
 	@Override
@@ -118,10 +129,11 @@ public class Issue {
 		if (getClass() != obj.getClass())
 			return false;
 		Issue other = (Issue) obj;
-		return Objects.equals(customer, other.customer) && Objects.equals(issueDescription, other.issueDescription)
-				&& issueId == other.issueId && Objects.equals(issueStatus, other.issueStatus)
-				&& Objects.equals(issueType, other.issueType) && Objects.equals(operator, other.operator);
+		return Objects.equals(customer, other.customer) && Objects.equals(issueDateTime, other.issueDateTime)
+				&& Objects.equals(issueDescription, other.issueDescription) && issueId == other.issueId
+				&& Objects.equals(issueStatus, other.issueStatus) && Objects.equals(issueType, other.issueType)
+				&& Objects.equals(operator, other.operator) && Objects.equals(solution, other.solution);
 	}
-    
-    
+
+	
 }

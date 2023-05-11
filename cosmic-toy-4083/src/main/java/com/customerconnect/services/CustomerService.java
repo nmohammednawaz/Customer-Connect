@@ -25,4 +25,6 @@ public interface CustomerService {
 	void checkCurrentPassword(String currentPassword) throws CannotCompleteTaskException, CannotConnectException;
 
 	void updatePassword(String newPassword) throws CannotCompleteTaskException, CannotConnectException;
+
+	void reopenIssue(int issueId, String issueDescription) throws CannotCompleteTaskException, CannotConnectException;
 }

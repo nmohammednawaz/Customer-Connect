@@ -4,7 +4,9 @@ import java.util.List;
 
 import com.customerconnect.dao.AdminDao;
 import com.customerconnect.daoimplementations.AdminDaoImplement;
+import com.customerconnect.entity.Customer;
 import com.customerconnect.entity.Department;
+import com.customerconnect.entity.Login;
 import com.customerconnect.entity.Operator;
 import com.customerconnect.exception.CannotCompleteTaskException;
 import com.customerconnect.exception.CannotConnectException;
@@ -77,6 +79,48 @@ public class AdminServiceImplement implements AdminService{
 		AdminDao operatorDao = new AdminDaoImplement();
 		List<Operator> operatorsList= operatorDao.viewAllOperators();
 		return operatorsList;
+	}
+
+	@Override
+	public List<Customer> viewAllCustomers() throws NoRecordFoundException, CannotConnectException {
+		AdminDao adminDao = new AdminDaoImplement();
+		List<Customer> customesList= adminDao.viewAllCustomers();
+		return customesList;
+	}
+
+	@Override
+	public Customer findCustomerById(int customerId) throws NoRecordFoundException, CannotConnectException {
+		AdminDao adminDao = new AdminDaoImplement();
+		Customer customer= adminDao.findCustomerById(customerId);
+		return customer;
+	}
+
+	@Override
+	public Customer findCustomerByEmail(String customerEmail) throws NoRecordFoundException, CannotConnectException {
+		AdminDao adminDao = new AdminDaoImplement();
+		Customer customer= adminDao.findCustomerByEmail(customerEmail);
+		return customer;
+	}
+
+	@Override
+	public List<Customer> findCustomersByName(String customerFirstName, String customerLastName)
+			throws NoRecordFoundException, CannotConnectException {
+		AdminDao adminDao = new AdminDaoImplement();
+		List<Customer> customesList= adminDao.findCustomersByName(customerFirstName, customerLastName);
+		return customesList;
+	}
+
+	@Override
+	public void blockCustomer(int customerId) throws NoRecordFoundException, CannotConnectException,CannotCompleteTaskException {
+		AdminDao adminDao = new AdminDaoImplement();
+		adminDao.blockCustomer(customerId);
+	}
+
+	@Override
+	public List<Login> getLoginDetails() throws NoRecordFoundException, CannotConnectException {
+		AdminDao adminDao = new AdminDaoImplement();
+		List<Login> loginList= adminDao.getLoginDetails();
+		return loginList;
 	}
 	
 	

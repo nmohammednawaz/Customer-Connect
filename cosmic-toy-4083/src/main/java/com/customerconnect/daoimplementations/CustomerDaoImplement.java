@@ -1,5 +1,6 @@
 package com.customerconnect.daoimplementations;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.customerconnect.dao.CustomerDao;
@@ -65,6 +66,7 @@ public class CustomerDaoImplement implements CustomerDao {
 	        login.setUsername(loginEmail);
 	        login.setPassword(loginPassword);
 	        login.setUserType(UserType.CUSTOMER);
+	        login.setLoginDateTime(LocalDateTime.now());
 	        login.setActive(true);
 	        customer.setLogin(login);
 	        login.setCustomer(customer);
@@ -75,6 +77,7 @@ public class CustomerDaoImplement implements CustomerDao {
 			LoggedInUserId.loggedInUserId = customer.getCustomerId();
 			String customerName = customer.getFirstName() + " " + customer.getLastName();
 			LoggedInUserId.loggedInUserName = customerName;
+			System.out.println("Code is here");
 		}catch(PersistenceException ex) {
 			throw new CannotConnectException("Unable to Connect, Please try again");
 		}finally {
@@ -155,19 +158,16 @@ public class CustomerDaoImplement implements CustomerDao {
 			issueList = customer.getIssues();
 
 			if(issueList.size() == 0) {
-				throw new NoRecordFoundException("Dear Admin, there is no any operator added yet into the system...!");
+				throw new NoRecordFoundException("Dear Customer, There are no issues created as of now...!");
 			}
-			EntityTransaction entityTransaction = entityManager.getTransaction();
-			entityTransaction.begin();
 			
-			entityTransaction.commit();
-			
+			return issueList;
 		}catch(PersistenceException ex) {
 			throw new CannotConnectException("Unable to Connect, Please try again");
 		}finally {
 			entityManager.close();
 		}
-		return issueList;
+		
 	}
 
 	@Override
@@ -218,6 +218,27 @@ public class CustomerDaoImplement implements CustomerDao {
 		}finally {
 			entityManager.close();
 		}
+	}
+
+	@Override
+	public void reopenIssue(int issueId, String issueDescription)
+			throws CannotCompleteTaskException, CannotConnectException {
+		EntityManager entityManager = null;
+		try {
+			entityManager = EMUtils.openConnection();
+			Issue issue = entityManager.find(Issue.class, issueId);
+			EntityTransaction entityTransaction = entityManager.getTransaction();
+			entityTransaction.begin();
+			issue.setIssueStatus("Reopened");
+			issue.setIssueDescription(issueDescription);
+			entityTransaction.commit();
+			
+		}catch(PersistenceException ex) {
+			throw new CannotConnectException("Unable to Connect, Please try again");
+		}finally {
+			entityManager.close();
+		}
+		
 	}
 
 }
