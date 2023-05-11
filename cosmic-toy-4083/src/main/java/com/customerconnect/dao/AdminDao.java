@@ -2,7 +2,9 @@ package com.customerconnect.dao;
 
 import java.util.List;
 
+import com.customerconnect.entity.Customer;
 import com.customerconnect.entity.Department;
+import com.customerconnect.entity.Login;
 import com.customerconnect.entity.Operator;
 import com.customerconnect.exception.CannotCompleteTaskException;
 import com.customerconnect.exception.CannotConnectException;
@@ -33,5 +35,21 @@ public interface AdminDao {
 	void modifyOperator(Operator operator) throws CannotCompleteTaskException, CannotConnectException;
 
 	List<Operator> viewAllOperators() throws NoRecordFoundException, CannotConnectException;
+
+//	----------------------------------- Customer Dao Interfaces ----------------------------------------
+	
+	
+	List<Customer> viewAllCustomers() throws NoRecordFoundException, CannotConnectException;
+
+	Customer findCustomerById(int customerId) throws NoRecordFoundException, CannotConnectException;
+
+	Customer findCustomerByEmail(String customerEmail) throws NoRecordFoundException, CannotConnectException;
+
+	List<Customer> findCustomersByName(String customerFirstName, String customerLastName) throws NoRecordFoundException, CannotConnectException;
+
+	void blockCustomer(int customerId) throws NoRecordFoundException, CannotConnectException, CannotCompleteTaskException;
+
+	List<Login> getLoginDetails() throws NoRecordFoundException, CannotConnectException;;
+
 	
 }

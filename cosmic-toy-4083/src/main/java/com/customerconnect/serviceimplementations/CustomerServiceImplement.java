@@ -68,4 +68,11 @@ public class CustomerServiceImplement implements CustomerService {
 		
 	}
 
+	@Override
+	public void reopenIssue(int issueId, String issueDescription)
+			throws CannotCompleteTaskException, CannotConnectException {
+		CustomerDao customerDao = new CustomerDaoImplement();
+		customerDao.reopenIssue(issueId, issueDescription);
+	}
+
 }

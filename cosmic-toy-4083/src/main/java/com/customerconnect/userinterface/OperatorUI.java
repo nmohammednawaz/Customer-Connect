@@ -21,22 +21,31 @@ public class OperatorUI {
 		System.out.println("4. Close Customer Issue");
 		System.out.println("0. Logout");
 		System.out.println();
-		
 	}
 	
 	
 //	Add Customer Issue 
-	private static void addCustomerIssue(Scanner sc) throws CannotConnectException {
+	private static void addCustomerIssue(Scanner sc) {
 		List<Issue> issuesList = null;
 		OperatorService operatorService = new OperatorServiceImplement();
 		try {
-			System.out.println("List of Issue:");
+			System.out.println();
+			System.out.println("List of Issues:");
+			System.out.println();
 			issuesList = operatorService.getIssueList();
 			for(Issue issues: issuesList) {
-				System.out.println(issues.getIssueId() + " " + issues.getIssueType() + " " + issues.getIssueDescription() + " " + issues.getIssueStatus() + " " + issues.getCustomer().getCustomerId());
+				System.out.println("\nCustomer Id: " + issues.getCustomer().getCustomerId() +
+						"\nIssue Id: " +issues.getIssueId() + 
+						"\nIssue Type: " + issues.getIssueType() + 
+						"\nIssue Status: " + issues.getIssueStatus() + 
+						"\nIssue Description: " + issues.getIssueDescription() +
+						"\n"
+				);
 			}
 		}catch(NoRecordFoundException noRecordFoundException) {
 			System.out.println(noRecordFoundException.getMessage());
+		}catch(CannotConnectException cannotConnectException) {
+			System.out.println(cannotConnectException.getMessage());
 		}
 		System.out.print("please enter issue Id to be added: ");
 		int issueId = sc.nextInt();
@@ -53,20 +62,33 @@ public class OperatorUI {
 		}
 		try {
 			operatorService.addIssue(issueId);
+			System.out.println();
+			App.printStar(185);
+			App.printSpace(80);
 			System.out.println("Issue Added Successfully...!");
+			App.printStar(185);
+			System.out.println();
 		}catch(CannotCompleteTaskException cannotCompleteTaskException) {
 			System.out.println(cannotCompleteTaskException.getMessage());
+		}catch(CannotConnectException cannotConnectException) {
+			System.out.println(cannotConnectException.getMessage());
 		}
 	}
 	
 //	Close Customer Issue
 	private static void closeCustomerIssue(Scanner sc) {
+		System.out.println();
 		System.out.println("Please enter issue id to be closed");
 		int issueId = sc.nextInt();
 		try {
 			OperatorService operatorService = new OperatorServiceImplement();
 			operatorService.closeCustomerIssue(issueId);
+			System.out.println();
+			App.printStar(185);
+			App.printSpace(80);
 			System.out.println("Issue Closed Successfully...!");
+			App.printStar(185);
+			System.out.println();
 		}catch(CannotCompleteTaskException cannotCompleteTaskException) {
 			System.out.println(cannotCompleteTaskException.getMessage());
 		}  catch (CannotConnectException cannotConnectException) {
@@ -79,11 +101,23 @@ public class OperatorUI {
 		List<Issue> issuesList = null;
 		OperatorService operatorService = new OperatorServiceImplement();
 		try {
-			System.out.println("List of Issue:");
+			System.out.println("List of Issues:");
 			issuesList = operatorService.viewAllIssues();
 			for(Issue issues: issuesList) {
-				System.out.println(issues.getIssueId() + " " + issues.getIssueType() + " " + issues.getIssueDescription() + " " + issues.getIssueStatus() + " " + issues.getCustomer().getCustomerId());
+				System.out.println("\nCustomer Id: " + issues.getCustomer().getCustomerId() +
+						"\nIssue Id: " +issues.getIssueId() + 
+						"\nIssue Type: " + issues.getIssueType() + 
+						"\nIssue Status: " + issues.getIssueStatus() + 
+						"\nIssue Description: " + issues.getIssueDescription()
+				);
+				if(issues.getSolution() == null) {
+					System.out.println("Solution: Not Solved Yet");
+				}else {
+					System.out.println("Solution: " + issues.getSolution().getSolutionDescription());
+				}
+				System.out.println();
 			}
+			
 		}catch(NoRecordFoundException noRecordFoundException) {
 			System.out.println(noRecordFoundException.getMessage());
 		} catch (CannotConnectException cannotConnectException) {
@@ -98,15 +132,25 @@ public class OperatorUI {
 		OperatorService operatorService = new OperatorServiceImplement();
 		try {
 			System.out.println("List of Issue:");
+			System.out.println();
 			issuesList = operatorService.getIssueList();
+			
 			for(Issue issues: issuesList) {
-				System.out.println(issues.getIssueId() + " " + issues.getIssueType() + " " + issues.getIssueDescription() + " " + issues.getIssueStatus() + " " + issues.getCustomer().getCustomerId());
+				System.out.println("Customer Id: " + issues.getCustomer().getCustomerId() +
+						"\nIssue Id: " +issues.getIssueId() + 
+						"\nIssue Type: " + issues.getIssueType() + 
+						"\nIssue Status: " + issues.getIssueStatus() + 
+						"\nIssue Description: " + issues.getIssueDescription() + 
+						"\n"
+				);
 			}
+			
 		}catch(NoRecordFoundException noRecordFoundException) {
 			System.out.println(noRecordFoundException.getMessage());
 		} catch (CannotConnectException cannotConnectException) {
 			System.out.println(cannotConnectException.getMessage());
 		}
+		
 		System.out.print("please enter issue Id to resolve: ");
 		int issueId = sc.nextInt();
 		boolean isPresent = false;
@@ -143,8 +187,8 @@ public class OperatorUI {
 	}
 	
 //	Operator Functionalities
-private static void operatorFunctionalities(Scanner sc) throws CannotConnectException {
-	
+private static void operatorFunctionalities(Scanner sc) {
+	System.out.println();
 		int operatorChoice = 0;
 		do {
 			displayOperatorFunctionalities();
@@ -166,10 +210,20 @@ private static void operatorFunctionalities(Scanner sc) throws CannotConnectExce
 				case 0:
 					LoggedInUserId.loggedInUserId = -1;
 					LoggedInUserId.loggedInUserName = null;
+					System.out.println();
+					App.printStar(185);
+					App.printSpace(90);
 					System.out.println("Logout Successfull..!");
+					App.printStar(185);
+					System.out.println();
 					break;
 				default:
+					System.out.println();
+					App.printStar(185);
+					App.printSpace(68);
 					System.out.println("🚫Please enter the correct preference and try again..!");
+					App.printStar(185);
+					System.out.println();
 					break;
 			}
 		}while(operatorChoice != 0);		
@@ -178,7 +232,10 @@ private static void operatorFunctionalities(Scanner sc) throws CannotConnectExce
 
 
 	//	Operator Login
-	public static void operatorLogin(Scanner sc) throws CannotConnectException {
+	public static void operatorLogin(Scanner sc) {
+		System.out.println();
+		System.out.println("Dear Operator, Please login with your credentials...!");
+		System.out.println();
 		System.out.print("Please enter your email address: ");
 		String loginEmail = sc.next();
 		System.out.print("Please enter your password: ");
@@ -187,10 +244,17 @@ private static void operatorFunctionalities(Scanner sc) throws CannotConnectExce
 		try {
 			OperatorService operatorService = new OperatorServiceImplement();
 			operatorService.loginOperator(loginEmail, loginPassword);
-			App.printWelcomeMessage(LoggedInUserId.loggedInUserName);
+			System.out.println();
+			App.printStar(185);
+			App.printSpace(80);
+			App.printWelcomeMessage(LoggedInUserId.loggedInUserName.toUpperCase());
+			App.printStar(185);
+			System.out.println();
 			operatorFunctionalities(sc);
 		}catch(CannotCompleteTaskException cannotCompleteTaskException) {
 			System.out.println(cannotCompleteTaskException.getMessage());
+		}catch(CannotConnectException cannotConnectException) {
+			System.out.println(cannotConnectException.getMessage());
 		}
 	}
 

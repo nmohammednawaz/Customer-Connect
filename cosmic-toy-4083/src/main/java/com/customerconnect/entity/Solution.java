@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -20,11 +19,11 @@ public class Solution {
     private String solutionDescription;
     private LocalDateTime solutionDateTime;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "issueId")
     private Issue issue;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "operatorId")
     private Operator operator;
 
