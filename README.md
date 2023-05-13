@@ -4,7 +4,7 @@
 
 A console based project for "Online Customer Service Center"
 
-This Project is an individual project in the association of Masai School during the contruct week of unit-5 under the course Spring Boot-1 with course code SB-101 under the instructions of IA Manager : Mr. Shishir Kumar Padhan 
+This project was developed by an individual as part of the Construct Week for Unit 5 of the Spring Boot-1 course (SB-101) at Masai School, under the guidance of the Instructional Associate Manager, Mr. Shishir Kumar Padhan.
 
 Description:
 What is Customer Connect System;
