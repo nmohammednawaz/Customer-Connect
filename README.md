@@ -11,9 +11,9 @@ What is Customer Connect System;
 This system helps a customer to create an issue and get resolved issue by the execute or an operator where each operator is specilised into specific category.
  
  In this Project I have developed a Online Customer Service Center system which has following Users:
- A. Admin
- B. User
- C. Operator (Executive)
+ 1. Admin
+ 2. User
+ 3. Operator (Executive)
  
  Admin: Admin is person who organizes and can manage the backend and frontend of the application.
  These are the following functionalities respect to admin:
