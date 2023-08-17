@@ -64,7 +64,6 @@ Tech Stacks Used:
 4. JDBC
 5. MYSQL
 6. Hibernate
-7. Spring Boot
 
 How to install and run the project:
 Installation :
