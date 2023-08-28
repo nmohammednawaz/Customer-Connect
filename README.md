@@ -1,6 +1,6 @@
 # Customer Connect
 
-![customer_connect_logo](https://github.com/nmohammednawaz/cosmic-toy-4083/assets/99792738/3f7741c4-cd2a-4ed4-913a-e570404691dd)
+<img src="https://github.com/nmohammednawaz/Customer-Connect/blob/main/Images/cc%20logo.png" alt="customer_connect_logo" width="300">
 
 A console based project for "Online Customer Service Center"
 
