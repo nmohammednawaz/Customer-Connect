@@ -310,7 +310,8 @@ public class AdminUI {
 							   "\nOperator Name: " + operator.getFirstName() + " " + operator.getLastName() +
 							   "\nOperator Email Address: " + operator.getEmail() +
 							   "\nOperator Mobile Number: " + operator.getMobileNumber() + 
-							   "\nOperator City: " + operator.getCity() + "\n"
+							   "\nOperator City: " + operator.getCity() + 
+							   "\nOperator Department: " + operator.getDepartment().getDepartmentName()  + "\n"
 							   );
 			System.out.println();
 			App.printStar(185);
@@ -331,7 +332,8 @@ public class AdminUI {
 					   "\nOperator Name: " + operator.getFirstName() + " " + operator.getLastName() +
 					   "\nOperator Email Address: " + operator.getEmail() +
 					   "\nOperator Mobile Number: " + operator.getMobileNumber() + 
-					   "\nOperator City: " + operator.getCity() + "\n"
+					   "\nOperator City: " + operator.getCity() + 
+					   "\nOperator Department: " + operator.getDepartment().getDepartmentName()  + "\n"
 					   ));
 			
 		}catch(NoRecordFoundException cannotCompleteTaskException) {

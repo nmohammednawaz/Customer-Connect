@@ -21,7 +21,7 @@ public class App {
 		for(int i = 0; i < n; i++) {
 			System.out.print("*");
 		}
-		System.out.println();
+		System.out.println();	
 	}
 	
 //	-------------------------------------- Main Method --------------------------------------
@@ -72,7 +72,7 @@ public class App {
     			case 0:
     				System.out.println();
     				printStar(185);
-    				printSpace(70);
+    				printSpace(70);	
     				System.out.println("Thank you for using our system, Have a great day!😊");
     				printStar(185);
     				System.exit(1);

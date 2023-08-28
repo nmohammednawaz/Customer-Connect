@@ -82,6 +82,7 @@ public class OperatorDaoImplement implements OperatorDao {
 			@SuppressWarnings("unchecked")
 			List<Issue> issuesList = ( List<Issue>)query.getResultList();
 			
+			
 			return issuesList;
 			
 		}catch(PersistenceException ex) {
@@ -191,17 +192,21 @@ public class OperatorDaoImplement implements OperatorDao {
 			
 			Issue issue = entityManager.find(Issue.class, issueId);
 			
-			EntityTransaction entityTransaction = entityManager.getTransaction();
-			entityTransaction.begin();
 			Operator operator = entityManager.find(Operator.class, LoggedInUserId.loggedInUserId);
 			
+			
+			
+			EntityTransaction entityTransaction = entityManager.getTransaction();
+			entityTransaction.begin();
 			Solution solution = new Solution();
 			solution.setSolutionDescription(solutionDescription);
-			solution.setOperator(operator);
-			solution.setIssue(issue);
+//			solution.setOperator(operator);
 			solution.setSolutionDateTime(LocalDateTime.now());
+			solution.setIssue(issue);
 			issue.setSolution(solution);
 			issue.setIssueStatus("Resolved");
+			solution.setIssue(issue);
+			
 			entityTransaction.commit();
 			
 		}catch(PersistenceException ex) {

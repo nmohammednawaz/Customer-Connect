@@ -52,9 +52,8 @@ public class CustomerDaoImplement implements CustomerDao {
 		EntityManager entityManager = null;
 		try {
 			entityManager = EMUtils.openConnection();
-	        Query query = entityManager.createQuery("SELECT c FROM Customer c WHERE email = :email AND password = :password AND customerIsActive = :customerIsActive");
+	        Query query = entityManager.createQuery("SELECT c FROM Customer c WHERE email = :email AND customerIsActive = :customerIsActive");
 	        query.setParameter("email", loginEmail);
-	        query.setParameter("password", loginPassword);
 	        query.setParameter("customerIsActive", true);
 	        @SuppressWarnings("unchecked")
 			List<Customer> customers = query.getResultList();
@@ -62,6 +61,9 @@ public class CustomerDaoImplement implements CustomerDao {
 	            throw new CannotCompleteTaskException("Invalid Email ID or Password!");
 	        }
 	        Customer customer = customers.get(0);
+	        if(!customer.getPassword().equals(loginPassword)) {
+	        	throw new CannotCompleteTaskException("Invalid Email ID or Password!");
+	        }
 	        Login login = new Login();
 	        login.setUsername(loginEmail);
 	        login.setPassword(loginPassword);
@@ -77,7 +79,7 @@ public class CustomerDaoImplement implements CustomerDao {
 			LoggedInUserId.loggedInUserId = customer.getCustomerId();
 			String customerName = customer.getFirstName() + " " + customer.getLastName();
 			LoggedInUserId.loggedInUserName = customerName;
-			System.out.println("Code is here");
+			
 		}catch(PersistenceException ex) {
 			throw new CannotConnectException("Unable to Connect, Please try again");
 		}finally {

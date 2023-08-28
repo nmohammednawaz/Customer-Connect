@@ -58,6 +58,10 @@ public class CustomerUI {
 			System.out.println("Password Not Matched..!");
 			return;
 		}
+		if(customerMobile.length() != 10) {
+			System.out.println("Please enter a valid mobile number");
+			return;
+		}
 		
 		Customer customer = new Customer();
 		customer.setFirstName(customerFirstName);
@@ -121,7 +125,7 @@ public class CustomerUI {
 		
 		if(issueDescription.length() > 250) {
 			System.out.println();
-			System.out.println("Please describe your issue in a brief sentence of no more than 200 characters");
+			System.out.println("Please describe your issue in a brief sentence of not more than 200 characters");
 			return;
 		}
 		
@@ -358,6 +362,7 @@ public class CustomerUI {
 					break;
 				case 2:
 					viewIssueById(sc);
+					break;
 				case 3:
 					reOpenIssue(sc);
 					break;
