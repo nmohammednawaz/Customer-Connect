@@ -55,7 +55,7 @@ Operator: Operator is an employee of the company added by customer to connect ea
 
 Basic Flow Of App:
 
-![entity](https://github.com/nmohammednawaz/cosmic-toy-4083/assets/99792738/d4dc1fde-d69b-4469-a901-ff91f0f6f78b)
+![entity](https://github.com/nmohammednawaz/Customer-Connect/blob/main/Images/entity.png)
 
 Tech Stacks Used:
 1. Java
