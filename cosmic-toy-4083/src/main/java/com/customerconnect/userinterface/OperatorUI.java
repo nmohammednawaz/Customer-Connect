@@ -18,7 +18,7 @@ public class OperatorUI {
 		System.out.println("1. View All Issues");
 		System.out.println("2. Add Customer Issue");
 		System.out.println("3. Solve Customer Issue");
-		System.out.println("4. Close Customer Issue");
+//		System.out.println("4. Close Customer Issue");
 		System.out.println("0. Logout");
 		System.out.println();
 	}
@@ -133,7 +133,7 @@ public class OperatorUI {
 		try {
 			System.out.println("List of Issue:");
 			System.out.println();
-			issuesList = operatorService.getIssueList();
+			issuesList = operatorService.viewAllIssues();
 			
 			for(Issue issues: issuesList) {
 				System.out.println("Customer Id: " + issues.getCustomer().getCustomerId() +
@@ -204,9 +204,9 @@ private static void operatorFunctionalities(Scanner sc) {
 				case 3:
 					solveCustomerIssue(sc);
 					break;
-				case 4:
-					closeCustomerIssue(sc);
-					break;
+//				case 4:
+//					closeCustomerIssue(sc);
+//					break;
 				case 0:
 					LoggedInUserId.loggedInUserId = -1;
 					LoggedInUserId.loggedInUserName = null;

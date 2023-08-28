@@ -15,9 +15,9 @@ public class EMUtils {
 		return entityManagerFactory.createEntityManager();
 	}
 	
-	public static void closeConnection() {
-		if(entityManagerFactory != null) {
-			entityManagerFactory.close();
+	public static void closeConnection(EntityManager entityManager) {
+		if(entityManager != null) {
+			entityManager.close();
 		}
 	}
 	
